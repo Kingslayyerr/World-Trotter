@@ -20,6 +20,7 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
     }
     
     override func viewDidLoad() {
+        
         //Always call the super implementation of view did load
         super.viewDidLoad()
         
@@ -46,8 +47,18 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func fahrenheitFieldEditingChanged(textField: UITextField) {
         
-        if let text = textField.text, value = Double(text) {
-            fahrenheitValue = value
+        // if let text = textField.text, value = Double(text) {
+        //    fahrenheitValue = value
+        // }
+        // else {
+        //    fahrenheitValue = nil
+        // }
+        
+        
+        // UPDATE TO TEXT TO ALLOW CELSIUS TO RECOGNIZE COMMAS AS SEPARATORS
+        
+        if let text = textField.text, number = numberFormatter.numberFromString(text) {
+            fahrenheitValue = number.doubleValue
         }
         else {
             fahrenheitValue = nil
@@ -77,14 +88,21 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
         return nf
     } ()
     
-    
+    // LOCATION UNIVERSILIZATION WORK ZONE
     
     func textField(textField: UITextField,
                    shouldChangeCharactersInRange range: NSRange,
                    replacementString string: String) -> Bool {
     
-        let existingTextHasDecimalSeparator = textField.text?.rangeOfString(".")
-        let replacementTextHasDecimalSeparator = string.rangeOfString(".")
+       // let existingTextHasDecimalSeparator = textField.text?.rangeOfString(".")
+       // let replacementTextHasDecimalSeparator = string.rangeOfString(".")
+        
+        // CHANGES TO NSLOCALE SETTINGS
+        
+        let currentLocale = NSLocale.currentLocale() // setting a variable "currentLocale" to the current regions settings
+        let decimalSeparator = currentLocale.objectForKey(NSLocaleDecimalSeparator) as! String // calling the objectForKey method on currentLocale and passing in NSLocaleDecimalSeparator as a string
+        let existingTextHasDecimalSeparator = textField.text?.rangeOfString(decimalSeparator)
+        let replacementTextHasDecimalSeparator = string.rangeOfString(decimalSeparator)
         
         // Bronze Challenge
         let letters = NSCharacterSet.letterCharacterSet()
@@ -92,6 +110,7 @@ class ConversionViewController: UIViewController, UITextFieldDelegate {
             return false
         }
         else {
+        
         if existingTextHasDecimalSeparator != nil && replacementTextHasDecimalSeparator != nil {
             return false
         }

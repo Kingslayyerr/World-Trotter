@@ -29,9 +29,22 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         view = mapView
         
     // Here we are setting up the segmented control.
-        let segmentedControl = UISegmentedControl(items: ["Standard", "Hybrid", "Satellite"])
+        
+        // let segmentedControl = UISegmentedControl(items: ["Standard", "Hybrid", "Satellite"]) #OLD WAY
+        
+        // Here we are internationalizing the strings that MapViewController uses.
+        let standardString = NSLocalizedString("Standard", comment: "Standard map view")
+        let satelliteString = NSLocalizedString("Satellite", comment: "Satellite map view")
+        let hybridString = NSLocalizedString("Hybrid", comment: "Hybrid map view")
+        
+        let segmentedControl = UISegmentedControl(items: [standardString, hybridString, satelliteString])
+        
+        
         segmentedControl.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         segmentedControl.selectedSegmentIndex = 0
+        
+        
+
         
    // Add a target-action pair to the segemented controller and associate it with the .ValueChanged event
         segmentedControl.addTarget(self, action: #selector(MapViewController.mapTypeChanged(_:)),
@@ -59,8 +72,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         // Button Code
         
+        let locationString = NSLocalizedString("My Location", comment: "Location Button")
+        
         let showLocButton = UIButton(type: .System)
-        showLocButton.setTitle("My Location", forState: .Normal)
+        showLocButton.setTitle(locationString, forState: .Normal)
         showLocButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(showLocButton)
         
